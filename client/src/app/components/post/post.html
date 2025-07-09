@@ -1,1 +1,18 @@
-<p>post works!</p>
+<div class="content-card" *ngIf="post">
+    <div class="profile">
+        <img src="https://placehold.co/40x40" alt="">
+        <p>{{ post.userProfileId }}</p>
+    </div>
+    <div class="content">
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="actions">
+        <app-vote></app-vote>
+        <button class="comment-button">Comment</button>
+        <button class="share-button">Share</button>
+    </div>  
+</div>
+
+<!-- <div class="modal-container">
+
+</div> -->
