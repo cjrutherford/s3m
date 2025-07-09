@@ -1,10 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+import { ApiProperty } from '@nestjs/swagger';
+
 @Entity()
 export default class SaltEntity {
-    // This entity can be used to store salts for password hashing
-    // If you need to store salts, you can define columns here
-    // For example, you might want to store a user ID and the salt value
     
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -13,5 +12,16 @@ export default class SaltEntity {
     userId: string;
     
     @Column()
+    salt: string;
+}
+
+export class SaltDto {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    userId: string;
+
+    @ApiProperty()
     salt: string;
 }
