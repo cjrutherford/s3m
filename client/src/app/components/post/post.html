@@ -1,18 +1,26 @@
 <div class="content-card" *ngIf="post">
     <div class="profile">
-        <img src="https://placehold.co/40x40" alt="">
-        <p>{{ post.userProfileId }}</p>
+        <img width="50px" [src]="buildAssetUrl(post.userProfile.profilePictureUrl) || 'https://placehold.co/40x40'" alt="">
+        <p>{{ post.userProfile.name }}</p>
     </div>
     <div class="content">
         <p>{{ post.content }}</p>
     </div>
     <div class="actions">
         <app-vote></app-vote>
-        <button class="comment-button">Comment</button>
+        <button class="comment-button" (click)="toggleModal()">Comment</button>
         <button class="share-button">Share</button>
-    </div>  
+    </div>
+    <div class="comments">
+        @for (comment of post.comments; track comment.id) {
+            <app-comment [comment]="comment"></app-comment>
+        }
+    </div>
 </div>
 
-<!-- <div class="modal-container">
-
-</div> -->
+<div class="modal-container" *ngIf="showModal()">
+    <div class="modal-content">
+        <app-compose-comment (onCommentSave)="onCommentSave($event)"></app-compose-comment>
+        <button class="close-button" (click)="toggleModal()">Close</button>
+    </div>
+</div>

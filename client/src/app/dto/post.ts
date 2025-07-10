@@ -1,4 +1,5 @@
 import CommentDto from "./comment";
+import { ProfileType } from "../services/user-profile";
 import VoteDto from "./vote";
 
 export default interface PostDto {
@@ -6,7 +7,17 @@ export default interface PostDto {
     createdAt: Date;
     updatedAt?: Date;
     content: string;
+    userProfile: ProfileType;
+    comments?: CommentDto[];
+    votes?: VoteDto[];
+}
+
+export interface CreatePostDto {
+    content: string;
     userProfileId: string;
-    comments?: CommentDto[]; // Assuming comments is an array of objects
-    votes?: VoteDto[]; // Assuming votes is an array of objects
+}
+
+export interface UpdatePostDto {
+    content?: string;
+    userProfileId?: string;
 }

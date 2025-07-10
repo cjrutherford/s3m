@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-vote',
@@ -7,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrl: './vote.scss'
 })
 export class Vote {
+  @Input() up: number = 0;
+  @Input() down: number = 0;
 
+  processVote(type?: 'up' | 'down') {
+    if (type === 'up') {
+      this.up++;
+    } else if (type === 'down') {
+      this.down++;
+    }
+  }
 }

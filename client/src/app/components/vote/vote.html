@@ -1,11 +1,11 @@
 <div class="vote-container">
     <div class="ups">
-        <button>⬆️</button>
-        <span class="counter">0</span>
+        <button (click)="processVote('up')">⬆️</button>
+        <span class="counter">{{up}}</span>
     </div>
-    <button>⛔</button>
+    <button (click)="processVote()">⛔</button>
     <div class="downs">
-        <button>⬇️</button>
-        <span class="counter">0</span>
+        <button (click)="processVote('down')">⬇️</button>
+        <span class="counter">{{down}}</span>
     </div>
 </div>

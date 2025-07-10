@@ -1,5 +1,6 @@
+import { Injectable, inject } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 
 export interface CreateUserProfileDto {
     name: string;
@@ -8,6 +9,7 @@ export interface CreateUserProfileDto {
 }
 
 export declare type ProfileType = {
+  id: string;
   name: string;
   bio: string;
   profilePictureUrl: string;
@@ -17,12 +19,12 @@ export declare type ProfileType = {
   providedIn: 'root'
 })
 export class UserProfile {
-  private readonly baseUrl = '/api/user';
+  private readonly baseUrl = '/api/users';
 
   constructor(private readonly http: HttpClient) { }
 
   getUserProfile() {
-    return this.http.get(`${this.baseUrl}`);
+    return this.http.get<ProfileType>(`${this.baseUrl}`);
   }
 
   getUserProfileById(userId: string) {

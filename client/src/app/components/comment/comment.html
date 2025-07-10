@@ -1,1 +1,9 @@
-<p>comment works!</p>
+<div class="content-card">
+    <div class="profile">
+        <img width="50px" [src]="isProfilePicture(comment) ? wrapProfileUrl(comment!.userProfile!.profilePictureUrl) : 'https://placehold.co/40x40'" alt="">
+        <p>{{ comment?.userProfile?.name }}</p>
+    </div>
+    <div class="content">
+        <p>{{ comment?.content }}</p>
+    </div>
+</div>
