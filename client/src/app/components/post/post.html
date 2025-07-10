@@ -20,7 +20,7 @@
 
 <div class="modal-container" *ngIf="showModal()">
     <div class="modal-content">
-        <app-compose-comment (onCommentSave)="onCommentSave($event)"></app-compose-comment>
+        <app-compose-comment (onCommentSave)="onCommentSave($event)" [postId]="post!.id"></app-compose-comment>
         <button class="close-button" (click)="toggleModal()">Close</button>
     </div>
 </div>

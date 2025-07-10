@@ -27,7 +27,7 @@ export class Feed {
   }
 
   addPost(content: PostDto) {
-    const newPost: PostDto = { ...content, id: 'abcxyz', createdAt: new Date() };
-    this.posts.update((prev) => [...prev, newPost]);
+    const newPost: PostDto = { ...content, createdAt: new Date() };
+    this.posts.update((prev) => [newPost, ...prev]);
   }
 }

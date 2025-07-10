@@ -13,7 +13,6 @@ export class CommentService {
     ) {}
 
     async createComment(commentData: CreateCommentDto): Promise<CommentEntity> {
-        const newComment = this.commentRepo.create(commentData);
         const userProfile = await this.userProfileRepo.findOne({
             where: { id: commentData.userProfileId },
             relations: ['user'],
@@ -21,7 +20,6 @@ export class CommentService {
         if( !userProfile) {
             throw new Error(`User profile not found for ID: ${commentData.userProfileId}`);
         }
-        newComment.userProfile = userProfile;
         const post = await this.postRepo.findOne({
             where: { id: commentData.postId },
             relations: ['userProfile'],
@@ -29,7 +27,11 @@ export class CommentService {
         if (!post) {
             throw new Error(`Post not found for ID: ${commentData.postId}`);
         }
-        newComment.post = post;
+        const newComment = this.commentRepo.create({
+            content: commentData.content,
+            userProfile: userProfile,
+            post: post,
+        });
         return await this.commentRepo.save(newComment);
     }
 

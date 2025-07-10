@@ -14,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './compose-comment.scss'
 })
 export class ComposeComment {
-  @Input() postId?: string;
+  @Input() postId: string = '';
   @Output() onCommentSave: EventEmitter<CommentDto> = new EventEmitter<CommentDto>();
   constructor(
     private readonly commentService: CommentService,
@@ -27,7 +27,7 @@ export class ComposeComment {
     const profile = await firstValueFrom(this.profileService.getUserProfile());
     this.commentService.createComment({
       content: comment,
-      postId: this.postId!,
+      postId: this.postId,
       userProfileId: profile.id
     }).subscribe({
       next: (createdComment) => {
