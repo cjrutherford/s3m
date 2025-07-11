@@ -7,7 +7,7 @@
         <p>{{ post.content }}</p>
     </div>
     <div class="actions">
-        <app-vote></app-vote>
+        <app-vote [postId]="post.id"></app-vote>
         <button class="comment-button" (click)="toggleModal()">Comment</button>
         <button class="share-button">Share</button>
     </div>

@@ -16,28 +16,8 @@ import { Vote } from '../vote/vote';
 export class Post {
   @Input() post?: PostDto;
   showModal = signal<boolean>(false);
-  comments = signal<CommentDto[]>([]);
 
   constructor(private readonly commentService: CommentService) {}
-
-  ngOnInit() {
-    this.loadComments();
-  }
-  private loadComments() {
-    console.log('Loading comments for post: ', this.post);
-    if (!this.post) return;
-
-    console.log('past the early return ')
-    this.commentService.getCommentsByPostId(this.post.id).subscribe({
-      next: (comments) => {
-        console.log('Comments loaded:', comments);
-        this.comments.set(comments);
-      },
-      error: (err) => {
-        console.error('Error loading comments:', err);
-      }
-    });
-  }
 
   toggleModal() {
     this.showModal.set(!this.showModal());

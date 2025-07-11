@@ -59,7 +59,7 @@ export class PostService {
         const foundPosts =  await this.postRepo.find({
             where,
             order: { createdAt: 'DESC' },
-            relations: ['userProfile', 'comments'],
+            relations: ['userProfile', 'comments', 'comments.userProfile'],
         });
         return foundPosts;
     }
