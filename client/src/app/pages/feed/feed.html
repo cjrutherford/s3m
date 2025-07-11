@@ -1,1 +1,6 @@
-<p>feed works!</p>
+<app-compose-post (contentPosted)="addPost($event)"></app-compose-post>
+<div class="grid-list">
+    @for(post of posts(); track post.id) {
+        <app-post [post]="post"></app-post>
+    }
+</div>

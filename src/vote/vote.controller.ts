@@ -18,13 +18,17 @@ export class VoteController {
         @User() user: UserType,
         @Body() voteData: CreateUpdateVoteDto
     ): Promise<VoteEntity> {
+        console.log('Setting vote for user:', user);
         const userProfile = await this.usersService.getUserProfile(user.userId);
+        console.log('User Profile retrieved:', userProfile);
         if (!userProfile) {
             throw new Error(`User profile not found for user ID: ${user.userId}`);
         }
         if (userProfile.id !== voteData.userProfileId) {
             throw new Error('You can only set votes for your own profile');
         }
+        console.log('Vote data:', voteData);
+        console.log('setting vote for post:', voteData.postId);
         return this.voteService.setVote(voteData);
     }
 

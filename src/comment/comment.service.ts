@@ -1,5 +1,5 @@
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CommentEntity, CreateCommentDto, UpdateCommentDto } from '../database/entities';
+import { CommentEntity, CreateCommentDto, PostEntity, UpdateCommentDto, UserProfileEntity } from '../database/entities';
 
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -8,20 +8,44 @@ import { Repository } from 'typeorm';
 export class CommentService {
     constructor(
       @Inject(getRepositoryToken(CommentEntity)) private readonly commentRepo: Repository<CommentEntity>,
+      @Inject(getRepositoryToken(UserProfileEntity)) private readonly userProfileRepo: Repository<UserProfileEntity>,
+      @Inject(getRepositoryToken(PostEntity)) private readonly postRepo: Repository<PostEntity>,
     ) {}
 
     async createComment(commentData: CreateCommentDto): Promise<CommentEntity> {
-        const newComment = this.commentRepo.create(commentData);
+        const userProfile = await this.userProfileRepo.findOne({
+            where: { id: commentData.userProfileId },
+            relations: ['user'],
+        });
+        if( !userProfile) {
+            throw new Error(`User profile not found for ID: ${commentData.userProfileId}`);
+        }
+        const post = await this.postRepo.findOne({
+            where: { id: commentData.postId },
+            relations: ['userProfile'],
+        });
+        if (!post) {
+            throw new Error(`Post not found for ID: ${commentData.postId}`);
+        }
+        const newComment = this.commentRepo.create({
+            content: commentData.content,
+            userProfile: userProfile,
+            post: post,
+        });
         return await this.commentRepo.save(newComment);
     }
 
     async findCommentsByPostId(postId: string): Promise<CommentEntity[]> {
-        return await this.commentRepo.find({ where: { post: { id: postId } } });
+        return await this.commentRepo.find({
+            where: { post: { id: postId } },
+            relations: ['userProfile'],
+            order: { createdAt: 'DESC' },
+        });
     }
 
     async updateComment(id: string, commentData: UpdateCommentDto): Promise<CommentEntity | null> {
         await this.commentRepo.update(id, commentData);
-        return this.commentRepo.findOne({ where: { id } });
+        return this.commentRepo.findOne({ where: { id }, relations: ['userProfile'] });
     }
 
     async deleteComment(id: string): Promise<boolean> {
@@ -33,7 +57,7 @@ export class CommentService {
     }
 
     async findCommentsById(id: string): Promise<CommentEntity | null> {
-        return await this.commentRepo.findOne({ where: { id } });
+        return await this.commentRepo.findOne({ where: { id }, relations: ['userProfile'] });
     }
 
 }

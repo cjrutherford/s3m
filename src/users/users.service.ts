@@ -4,7 +4,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AssetService } from '../asset/asset.service';
-import { UserProfileEntity } from '../database/entities';
+import { UserEntity, UserProfileEntity } from '../database/entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -15,6 +15,8 @@ export class UsersService {
   constructor(
     @Inject(getRepositoryToken(UserProfileEntity))
     private readonly userProfileRepo: Repository<UserProfileEntity>,
+    @Inject(getRepositoryToken(UserEntity))
+    private readonly userRepo: Repository<UserEntity>,
     private readonly assetService: AssetService,
   ) {}
 
@@ -26,8 +28,13 @@ export class UsersService {
    */
   async getUserProfile(userId: string): Promise<UserProfileEntity> {
     try {
+      const user = await this.userRepo.findOne({ where: { id: userId } });
+      if (!user) {
+        throw new Error(`User not found for ID: ${userId}`);
+      }
       const profile = await this.userProfileRepo.findOne({
         where: { user: { id: userId } },
+        relations: ['user'],
       });
       if (!profile) {
         throw new Error(`User profile not found for user ID: ${userId}`);
@@ -48,10 +55,46 @@ export class UsersService {
       base64ProfilePicture = `data:image/png;base64,${base64ProfilePicture}`;
       return {
         ...profile,
+        user: user,
         profilePictureUrl: base64ProfilePicture,
       };
     } catch (error) {
       console.error('Error in getUserProfile:', error.message);
+      throw error;
+    }
+  }
+
+  async getUserProfileById(
+    profileId: string,
+  ): Promise<UserProfileEntity> {
+    try {
+      const profile = await this.userProfileRepo.findOne({
+        where: { id: profileId },
+        relations: ['user'],
+      });
+      if (!profile) {
+        throw new Error(`User profile not found for ID: ${profileId}`);
+      }
+      const profileAsset = await this.assetService.readAsset(
+        profile.profilePictureUrl!,
+      );
+      if (!profileAsset) {
+        throw new Error(`Profile picture not found for user ID: ${profileId}`);
+      }
+      // Assume PNG for profile pictures; adjust MIME type if needed
+      let base64ProfilePicture = `${profileAsset.toString('base64')}`;
+      
+      base64ProfilePicture = base64ProfilePicture.replace(
+        /^dataimage\/pngbase64,?/i,
+        '',
+      );
+      base64ProfilePicture = `data:image/png;base64,${base64ProfilePicture}`;
+      return {
+        ...profile,
+        profilePictureUrl: base64ProfilePicture,
+      };
+    } catch (error) {
+      console.error('Error in getUserProfileById:', error.message);
       throw error;
     }
   }

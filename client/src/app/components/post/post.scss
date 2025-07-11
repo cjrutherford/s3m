@@ -1,0 +1,47 @@
+.profile {
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+    img {
+        border-radius: 50%;
+    }
+}
+.content {
+    width: 100%;
+    margin: 20px ;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text);
+}
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    button {
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        border-radius: 5px;
+        background-color: var(--primary);
+        color: var(--text);
+        border: none;
+        transition: background-color 0.3s ease-in-out;
+        &:hover {
+            background-color: var(--secondary);
+        }
+    }
+}
+
+.comments {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -1,1 +1,9 @@
-<p>comment works!</p>
+<div class="content-card">
+    <div class="profile">
+        <img width="50px" [src]="profilePhoto()" alt="{{ profileName() }}-avatar" />
+        <p>{{ profileName() }}</p>
+    </div>
+    <div class="content">
+        <p>{{ comment?.content }}</p>
+    </div>
+</div>
