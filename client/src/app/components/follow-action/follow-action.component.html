@@ -1,0 +1,20 @@
+<div class="profile-hover-container" 
+     (click)="toggleHover()"
+     (keydown)="toggleHover()"
+     >
+  <div class="profile-info">
+    <img *ngIf="profilePhotoUrl" [src]="profilePhotoUrl" alt="{{profileName}}" class="profile-photo" />
+    <span class="profile-name">{{ profileName }}</span>
+  </div>
+  <div class="follow-action" *ngIf="!isOwnProfile() && isHovering()">
+    <div class="content-card">
+      <button (click)="toggleFollow()" class="follow-btn">
+        {{ isFollowing() ? 'Unfollow' : 'Follow' }}
+      </button>
+      <button (click)="viewProfile()" class="view-profile-btn">
+        View Profile
+      </button>
+    </div>
+  </div>
+  <div *ngIf="loading()" class="loading-spinner">Loading...</div>
+</div>

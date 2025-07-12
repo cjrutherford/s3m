@@ -1,1 +1,14 @@
-<p>following works!</p>
+<div class="card-container">
+    <h2>Following</h2>
+</div>
+<div class="grid-list">
+    @for(follow of following(); track follow.id) {
+        <div class="content-card">
+            <img width="200px" [src]="follow.profilePictureUrl" alt="{{ follow.name }}-avatar" class="profile-photo" />
+            {{ follow.name }}
+        </div>
+    }
+    @if( following().length === 0) {
+        <div class="content-card">No following found.</div>
+    }
+</div>

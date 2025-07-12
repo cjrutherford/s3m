@@ -9,7 +9,6 @@ export function setupStatic(app: NestExpressApplication) {
     : join(__dirname, '..', '..', 'client', 'dist', 'client', 'browser');
     app.useStaticAssets(pubDir);
     app.setBaseViewsDir(pubDir);
-    console.log("🚀 ~ setupStatic ~ pubDir:", pubDir)
 
     app.use((req: Request, res: Response, next: NextFunction) => {
         if (req.url.startsWith('/api')) {

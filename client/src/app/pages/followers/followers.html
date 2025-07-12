@@ -1,1 +1,14 @@
-<p>followers works!</p>
+<div class="card-container">
+    <h2>Followers</h2>
+</div>
+<div class="grid-list">
+    @for (follower of followers(); track follower.id) {
+    <div class="content-card">
+        <img width="200px" [src]="follower.profilePictureUrl" alt="{{ follower.name }}-avatar" class="profile-photo" />
+        {{ follower.name }}
+    </div>
+    } @if( followers().length === 0) {
+      <div class="content-card">No followers found.</div>
+    }
+
+</div>

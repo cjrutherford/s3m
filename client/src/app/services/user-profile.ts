@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Profile } from '../pages/profile/profile';
 
 export interface CreateUserProfileDto {
     name: string;
@@ -28,15 +28,19 @@ export class UserProfile {
   }
 
   getUserProfileById(userId: string) {
-    return this.http.get<ProfileType>(`${this.baseUrl}s/${userId}`);
+    return this.http.get<ProfileType>(`${this.baseUrl}/${userId}`);
+  }
+
+  getUserProfileByProfileId(profileId: string) {
+    return this.http.get<ProfileType>(`${this.baseUrl}/profile/${profileId}`);
   }
 
   createUserProfile(profileData: CreateUserProfileDto) {
-    return this.http.post(`${this.baseUrl}`, profileData);
+    return this.http.post<ProfileType>(`${this.baseUrl}`, profileData);
   }
 
   updateUserProfile(profileData: CreateUserProfileDto) {
-    return this.http.put(`${this.baseUrl}`, profileData);
+    return this.http.put<ProfileType>(`${this.baseUrl}`, profileData);
   }
 
   deleteUserProfile() {

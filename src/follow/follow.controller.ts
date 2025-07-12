@@ -15,18 +15,22 @@ export class FollowController {
         return await this.followService.followUser(follow);
     }
 
-    @Delete('unfollow')
+    @Post('unfollow')
     async unfollowUser(@Body() follow: DeleteFollowDto) {
         return await this.followService.unfollowUser(follow);
     }
 
     @Get('followers/:userId')
     async getFollowers(@Param('userId') userId: string) {
-        return await this.followService.getFollowers(userId);
+        const followers = await this.followService.getFollowers(userId);
+        console.log("🚀 ~ FollowController ~ getFollowers ~ followers:", followers)
+        return followers;
     }
 
     @Get('following/:userId')
     async getFollowing(@Param('userId') userId: string) {
-        return await this.followService.getFollowing(userId);
+        const following = await this.followService.getFollowing(userId);
+        console.log("🚀 ~ FollowController ~ getFollowing ~ following:", following)
+        return following;
     }
 }

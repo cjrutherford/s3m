@@ -18,7 +18,6 @@ export class PostController {
     @Post('')
     async createPost(@User() user: UserType, @Body() createPostDto: CreatePostDto) {
         const userProfile = await this.usersService.getUserProfileById(createPostDto.userProfileId);
-        // console.log("🚀 ~ PostController ~ createPost ~ userProfile:", userProfile)
         if (!userProfile) {
             throw new Error(`User profile not found for user ID: ${createPostDto.userProfileId}`);
         }
