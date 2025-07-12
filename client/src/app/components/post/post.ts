@@ -5,11 +5,12 @@ import { Comment } from '../comment/comment';
 import { Comment as CommentService } from '../../services/comment';
 import { CommonModule } from '@angular/common';
 import { ComposeComment } from '../compose-comment/compose-comment';
+import { FollowActionComponent } from '../follow-action';
 import { Vote } from '../vote/vote';
 
 @Component({
   selector: 'app-post',
-  imports: [CommonModule, Vote, ComposeComment, Comment],
+  imports: [CommonModule, Vote, ComposeComment, Comment, FollowActionComponent],
   templateUrl: './post.html',
   styleUrl: './post.scss'
 })

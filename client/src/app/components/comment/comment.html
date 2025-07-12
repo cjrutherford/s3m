@@ -1,8 +1,9 @@
 <div class="content-card">
-    <div class="profile">
-        <img width="50px" [src]="profilePhoto()" alt="{{ profileName() }}-avatar" />
-        <p>{{ profileName() }}</p>
-    </div>
+    <app-follow-action
+      [profileId]="profileId()"
+      [profileName]="profileName()"
+      [profilePhotoUrl]="profilePhoto()"
+    ></app-follow-action>
     <div class="content">
         <p>{{ comment?.content }}</p>
     </div>

@@ -1,9 +1,10 @@
 import { Component, computed, effect, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 
+import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from './services/message';
-import { RouterOutlet } from '@angular/router';
 import { TitleBar } from './title-bar/title-bar';
 
 export declare type ColorSwatch = {
@@ -371,7 +372,11 @@ export class App {
     this.messageService.dismiss(index);
   }
   
-  constructor(private readonly messageService: MessageService) {
+  constructor(
+    private readonly messageService: MessageService,
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {
     this.loadThemeSettings();
     // Effect to apply theme whenever selectedTheme or themeMode changes
     effect(() => {
@@ -379,6 +384,9 @@ export class App {
       this.messageService.messages$().subscribe(messages => {
         this.messages.set(messages);
       });
+      if (!this.authService.isLoggedIn()) {
+        this.router.navigate(['/auth/login']);
+      }
     });
   }
 

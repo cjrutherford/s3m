@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+
+import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AssetService {
@@ -21,7 +22,7 @@ export class AssetService {
         try {
             return await fs.readFile(filePath);
         } catch (error) {
-            throw new Error(`Asset not found: ${fileName}`);
+            throw new Error(error.message);
         }   
     }
 

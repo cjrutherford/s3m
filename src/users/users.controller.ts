@@ -43,6 +43,14 @@ export class UsersController {
         return await this.usersService.getUserProfile(userId);
     }
 
+    @Get('profile/:profileId')
+    async getUserProfileByProfileId(@User() user: UserType, @Param('profileId') profileId: string) {
+        if (!user?.userId) {
+            throw new Error('User not authenticated');
+        }
+        return await this.usersService.getUserProfileById(profileId);
+    }
+
     /**
      * Creates a new user profile for the authenticated user.
      * @param user The authenticated user

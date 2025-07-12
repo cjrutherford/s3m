@@ -40,6 +40,7 @@ export class VoteService {
                 updatedAt: new Date()
             };
             // If the vote already exists, update it
+            await this.voteRepo.update(existingVote.id, updatedVote);
             const vote = await this.voteRepo.findOne({ where: { id: existingVote.id } , relations: ['post', 'userProfile'] });
             if (!vote) {
                 throw new Error(`Vote with ID ${existingVote.id} not found after update`);

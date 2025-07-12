@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TitleBar {
 
   navItems = [
-    { label: 'About', route: '/about', icon: 'ℹ️'},
+    // { label: 'About', route: '/about', icon: 'ℹ️'},
     { label: 'Followers', route: '/followers', icon: '📅' },
     { label: 'Following', route: '/following', icon: '📅' },
     { label: 'Feed', route: '/feed', icon: '📰' },

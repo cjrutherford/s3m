@@ -36,27 +36,16 @@ export class UsersService {
         where: { user: { id: userId } },
         relations: ['user'],
       });
+      if(profile?.user) {
+        const { password, ...userWithoutPassword } = profile.user;
+        profile.user = userWithoutPassword as UserEntity;
+      }
       if (!profile) {
         throw new Error(`User profile not found for user ID: ${userId}`);
       }
-      const profileAsset = await this.assetService.readAsset(
-        profile.profilePictureUrl!,
-      );
-      if (!profileAsset) {
-        throw new Error(`Profile picture not found for user ID: ${userId}`);
-      }
-      // Assume PNG for profile pictures; adjust MIME type if needed
-      let base64ProfilePicture = `${profileAsset.toString('base64')}`;
-
-      base64ProfilePicture = base64ProfilePicture.replace(
-        /^dataimage\/pngbase64,?/i,
-        '',
-      );
-      base64ProfilePicture = `data:image/png;base64,${base64ProfilePicture}`;
       return {
         ...profile,
         user: user,
-        profilePictureUrl: base64ProfilePicture,
       };
     } catch (error) {
       console.error('Error in getUserProfile:', error.message);
@@ -72,27 +61,14 @@ export class UsersService {
         where: { id: profileId },
         relations: ['user'],
       });
+      if (profile?.user) {
+        const { password, ...userWithoutPassword } = profile.user;
+        profile.user = userWithoutPassword as UserEntity;
+      }
       if (!profile) {
         throw new Error(`User profile not found for ID: ${profileId}`);
       }
-      const profileAsset = await this.assetService.readAsset(
-        profile.profilePictureUrl!,
-      );
-      if (!profileAsset) {
-        throw new Error(`Profile picture not found for user ID: ${profileId}`);
-      }
-      // Assume PNG for profile pictures; adjust MIME type if needed
-      let base64ProfilePicture = `${profileAsset.toString('base64')}`;
-      
-      base64ProfilePicture = base64ProfilePicture.replace(
-        /^dataimage\/pngbase64,?/i,
-        '',
-      );
-      base64ProfilePicture = `data:image/png;base64,${base64ProfilePicture}`;
-      return {
-        ...profile,
-        profilePictureUrl: base64ProfilePicture,
-      };
+      return profile;
     } catch (error) {
       console.error('Error in getUserProfileById:', error.message);
       throw error;
